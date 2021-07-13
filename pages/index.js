@@ -13,7 +13,7 @@ function ProfileSidebar(props) {
 
 export default function Home() {
   const user = 'rhayssadandara'
-  const pessoasFavoritas = ['leandroaragao31', 'pamelaferreiralima', 'tati2', 'luanpires94', 'kelvgraf', 'marxxbluecode', 'gustavoguanabara', 'alicecomoura', 'igorcouto']
+  const pessoasFavoritas = ['leandroaragao31', 'pamelaferreiralima', 'tati2', 'luanpires94', 'kelvgraf', 'igorcouto']
   return (
     <>
       <AlurakutMenu />
