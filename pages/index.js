@@ -24,7 +24,13 @@ function ProfileSidebar(props) {
 export default function Home() {
   const user = 'rhayssadandara'
   const pessoasFavoritas = ['pamelaferreiralima', 'tati2', 'luanpires94', 'gustavoguanabara', 'kelvgraf', 'igorcouto']
-  const [comunidades, setComunidades] = React.useState(["Alurakut"])
+  const [comunidades, setComunidades] = React.useState([
+    {
+      id: 534524534651345,
+      title: "Chuck Norris Sincero",
+      image:'http://3.bp.blogspot.com/_xuZyFxSS-UI/R7Rwb5HZ0JI/AAAAAAAAAnQ/5SZW3VkyxT4/w1200-h630-p-k-no-nu/chuck_norris.jpg'
+    }
+  ])
   
   return (
     <>
@@ -42,7 +48,14 @@ export default function Home() {
             <h2 className="subTitle">O que você deseja fazer?</h2>
             <form onSubmit={function handleCreateCommunity(e){
                 e.preventDefault()
-                const comunidadesAtualizadas = [...comunidades,'Alura Stars']
+                const dadosDoForm = new FormData(e.target)
+                console.log(dadosDoForm.get('title'))
+                const comunidade = {
+                  id: new Date().toISOString(),
+                  title:dadosDoForm.get('title'),
+                  image:dadosDoForm.get('image'),
+                }
+                const comunidadesAtualizadas = [...comunidades,comunidade]
                 setComunidades(comunidadesAtualizadas)
                 console.log(comunidades)
               }
@@ -80,10 +93,10 @@ export default function Home() {
           <ul>
               {comunidades.map((item) => {
                 return (
-                  <li>
-                    <a href={`/users/${item}`} key={item}>
-                      <img src={`http://placehold.it/300x300`} alt="image" />
-                      <span>{item}</span>
+                  <li key={item.id}>
+                    <a href={`/users/${item.title}`}>
+                      <img src={item.image} alt="image" />
+                      <span>{item.title}</span>
                     </a>
                   </li>
                 )
