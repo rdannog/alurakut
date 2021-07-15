@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
   body {
-    background-color:#D9E6F6;
+    background-image: linear-gradient(#308BC5,#BF3EFF,magenta,  darkmagenta);
     font-family: sans-serif;
   }
   #__next {

@@ -54,7 +54,6 @@ export function AlurakutMenu({ githubUser }) {
 }
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
-  background-color: #308BC5;
   .alurakutMenuProfileSidebar {
     background: white;
     position: fixed;
@@ -92,8 +91,7 @@ AlurakutMenu.Wrapper = styled.header`
       border-bottom-color: #ECF2FA;
     }
   }
-  .container {
-    background-color: #308BC5;
+  .container {    
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -166,7 +164,7 @@ function AlurakutMenuProfileSidebar({ githubUser }) {
   return (
     <div className="alurakutMenuProfileSidebar">
       <div>
-        <img src={`https://github.com/${githubUser}.png`} style={{ borderRadius: '8px' }} />
+        <img src={`https://github.com/rhayssadandara.png`} style={{ borderRadius: '8px' }} />
         <hr />
         <p>
           <a className="boxLink" href={`/user/${githubUser}`}>

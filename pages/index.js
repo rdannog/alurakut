@@ -22,7 +22,7 @@ function ProfileSidebar(props) {
 }
 
 export default function Home() {
-  const user = 'rhayssadandara'
+  const githubUser = 'rhayssadandara'
   const pessoasFavoritas = ['pamelaferreiralima', 'tati2', 'luanpires94', 'gustavoguanabara', 'kelvgraf', 'igorcouto']
   const [comunidades, setComunidades] = React.useState([
     {
@@ -37,11 +37,11 @@ export default function Home() {
       <AlurakutMenu />
       <MainGrid>
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
-          <ProfileSidebar githubUser={user} />
+          <ProfileSidebar githubUser={githubUser} />
         </div>
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
           <Box>
-            <h1>Bem vindo(a)</h1>
+            <h1 className="title">Bem vindo(a), {githubUser}</h1>
             <OrkutNostalgicIconSet />
           </Box>
           <Box>
@@ -82,7 +82,7 @@ export default function Home() {
             </form>
           </Box>
           <Box>
-            <h2 className="smallTitle">Depoimentos</h2>
+            <h2 className="subTitle">Depoimentos</h2>
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
