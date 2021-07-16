@@ -27,7 +27,19 @@ function ProfileRelationsBox(props) {
       <h2 className="smallTitle">
         {props.title} ({props.items.length})
       </h2>
-      
+      { /* <ul>
+          {seguidores.map((item) => {
+            return (
+            <li key={item}>
+            <a href={`https://github.com/${item}.png`}>
+            <img src={item.image} alt="imagem" />
+            <span>{item.title}</span>
+            </a>
+            </li>
+            )
+            })}
+        </ul>
+*/}
     </ProfileRelationsBoxWrapper>
   )
 }
@@ -35,26 +47,45 @@ function ProfileRelationsBox(props) {
 export default function Home() {
   const githubUser = 'rhayssadandara'
   const pessoasFavoritas = ['pamelaferreiralima', 'tati2', 'luanpires94', 'gustavoguanabara', 'kelvgraf', 'igorcouto']
-  const [comunidades, setComunidades] = React.useState([
-    {
-      id: 534524534651345,
-      title: "Chuck Norris Sincero",
-      image: 'http://3.bp.blogspot.com/_xuZyFxSS-UI/R7Rwb5HZ0JI/AAAAAAAAAnQ/5SZW3VkyxT4/w1200-h630-p-k-no-nu/chuck_norris.jpg'
-    }
-  ])
+  const [comunidades, setComunidades] = React.useState([])
 
-  const [followers, setFollowers]= React.useState([]);
-  React.useEffect(function() {
+  const [followers, setFollowers] = React.useState([]);
+  React.useEffect(function () {
     fetch('https://api.github.com/users/rhayssadandara/followers')
-     .then(function (respostaDoServidor) {
-       return respostaDoServidor.json()
-     })
-     .then(function(respostaCompleta) {
-       setFollowers(respostaCompleta)
-     })
-    }, [])
+      .then(function (respostaDoServidor) {
+        return respostaDoServidor.json()
+      })
+      .then(function (respostaCompleta) {
+        setFollowers(respostaCompleta)
+      })
 
-    console.log(followers)
+      fetch('https://graphql.datocms.com/', {
+        method: 'POST',
+        headers: {
+          'Authorization': '411a9b677d88957cf96f2f70d71627',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ "query": `
+          query {
+            allCommunities{
+            title
+            id
+            imageUrl
+            creatorSlug
+            }
+          }` 
+        })
+      })
+      .then((response) => response.json())
+      .then((respostaCompleta) => {
+        const comunidadesApi = respostaCompleta.data.allCommunities
+        console.log(comunidadesApi)
+        setComunidades(comunidadesApi)
+      })
+  }, [])
+
+  console.log(followers)
 
   return (
     <>
@@ -118,8 +149,8 @@ export default function Home() {
               {comunidades.map((item) => {
                 return (
                   <li key={item.id}>
-                    <a href={`/users/${item.title}`}>
-                      <img src={item.image} alt="image" />
+                    <a href={`/users/${item.id}`}>
+                      <img src={item.imageUrl} alt="image" />
                       <span>{item.title}</span>
                     </a>
                   </li>
