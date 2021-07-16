@@ -7,17 +7,28 @@ import { ProfileRelationsBoxWrapper } from '../src/Components/ProfileRelations/i
 function ProfileSidebar(props) {
   return (
     <Box>
-      <img src={`https://github.com/${props.githubUser}.png`} style={{ borderRadius: "8px"}} />
+      <img src={`https://github.com/${props.githubUser}.png`} style={{ borderRadius: "8px" }} />
       <hr />
 
       <p>
-        <a className="boxLink"  href={`https://github.com/${props.githubUser}`}>
+        <a className="boxLink" href={`https://github.com/${props.githubUser}`}>
           @{props.githubUser}
         </a>
       </p>
       <hr />
       <AlurakutProfileSidebarMenuDefault />
     </Box>
+  )
+}
+
+function ProfileRelationsBox(props) {
+  return (
+    <ProfileRelationsBoxWrapper>
+      <h2 className="smallTitle">
+        {props.title} ({props.items.length})
+      </h2>
+      
+    </ProfileRelationsBoxWrapper>
   )
 }
 
@@ -28,10 +39,23 @@ export default function Home() {
     {
       id: 534524534651345,
       title: "Chuck Norris Sincero",
-      image:'http://3.bp.blogspot.com/_xuZyFxSS-UI/R7Rwb5HZ0JI/AAAAAAAAAnQ/5SZW3VkyxT4/w1200-h630-p-k-no-nu/chuck_norris.jpg'
+      image: 'http://3.bp.blogspot.com/_xuZyFxSS-UI/R7Rwb5HZ0JI/AAAAAAAAAnQ/5SZW3VkyxT4/w1200-h630-p-k-no-nu/chuck_norris.jpg'
     }
   ])
-  
+
+  const [followers, setFollowers]= React.useState([]);
+  React.useEffect(function() {
+    fetch('https://api.github.com/users/rhayssadandara/followers')
+     .then(function (respostaDoServidor) {
+       return respostaDoServidor.json()
+     })
+     .then(function(respostaCompleta) {
+       setFollowers(respostaCompleta)
+     })
+    }, [])
+
+    console.log(followers)
+
   return (
     <>
       <AlurakutMenu />
@@ -46,39 +70,37 @@ export default function Home() {
           </Box>
           <Box>
             <h2 className="subTitle">O que você deseja fazer?</h2>
-            <form onSubmit={function handleCreateCommunity(e){
-                e.preventDefault()
-                const dadosDoForm = new FormData(e.target)
-                console.log(dadosDoForm.get('title'))
-                const comunidade = {
-                  id: new Date().toISOString(),
-                  title:dadosDoForm.get('title'),
-                  image:dadosDoForm.get('image'),
-                }
-                const comunidadesAtualizadas = [...comunidades,comunidade]
-                setComunidades(comunidadesAtualizadas)
-                console.log(comunidades)
+            <form onSubmit={function handleCreateCommunity(e) {
+              e.preventDefault()
+              const dadosDoForm = new FormData(e.target)
+              const comunidade = {
+                id: new Date().toISOString(),
+                title: dadosDoForm.get('title'),
+                image: dadosDoForm.get('image'),
               }
+              const comunidadesAtualizadas = [...comunidades, comunidade]
+              setComunidades(comunidadesAtualizadas)
+            }
             }
             >
               <div>
-                <input 
-                placeholder="Qual vai ser o nome da sua comunidade?" 
-                name="title" 
-                aria-label="Qual vai ser o nome da sua comunidade?" 
-                type="text"
+                <input
+                  placeholder="Qual vai ser o nome da sua comunidade?"
+                  name="title"
+                  aria-label="Qual vai ser o nome da sua comunidade?"
+                  type="text"
                 />
               </div>
               <div>
-                 <input 
-                  placeholder="Coloque uma URL para usarmos de capa" 
-                  name="image" 
-                  aria-label="Coloque uma URL para usarmos de capa" 
-                  />
+                <input
+                  placeholder="Coloque uma URL para usarmos de capa"
+                  name="image"
+                  aria-label="Coloque uma URL para usarmos de capa"
+                />
               </div>
-             <button>
-               Criar comunidade
-             </button>
+              <button>
+                Criar comunidade
+              </button>
             </form>
           </Box>
           <Box>
@@ -86,11 +108,13 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+          <ProfileRelationsBox items={followers} title="Seguidores" />
+
           <ProfileRelationsBoxWrapper>
-          <h2 className="smallTitle">
+            <h2 className="smallTitle">
               Comunidades ({comunidades.length})
             </h2>
-          <ul>
+            <ul>
               {comunidades.map((item) => {
                 return (
                   <li key={item.id}>
